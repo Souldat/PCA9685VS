@@ -1,0 +1,1 @@
+g++ -o "/home/pi/projects/PCA9685VS/bin/ARM/Debug/PCA9685VS.out" -Wl,--no-undefined -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack /home/pi/projects/PCA9685VS/obj/ARM/Debug/main.o -lwiringPi
