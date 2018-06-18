@@ -6,6 +6,7 @@
 #include <vector>
 #include <chrono>
 #include <string>
+#include <wiringPiI2C.h>
 
 
 using namespace std;
@@ -84,82 +85,92 @@ using namespace std;
 
  int main(void)
  {	
-	 wiringPiSetup();
-	 pinMode(1, OUTPUT);	 
+	 int k = wiringPiI2CSetup(0x40);
 
-	 while (true)
-	 {
-		digitalWrite(1, 1);
-		digitalWrite(1, 0);		
-	 }
+	 cout << wiringPiI2CReadReg8(k,0x04) << endl;
 
-	 //uint16_t _bitCheck;
+	 
 
-	// while (true)
-	// {
-	//	 digitalWrite(1, 0);
-	//	 delayMicroseconds(2);
-
-	//	 p_send = _packet;	 
-
-	//	 //Transmit Packet
-	//	 for (int i = 0; i < 15; i++)
-	//	 {
-	//		 //_bitCheck = (p_send & 0x01);
-
-	//		 digitalWrite(1, p_send & 0x01);
-
-	//		 //delayMicroseconds(1);
-
-	//		 digitalWrite(1, 0);
-
-	//		 delayMicroseconds(1.67);
-
-	//		 p_send = p_send >> 0x01;
-
-	//		 
-	//	 }
-
-	//	 //break;
-	//}
-
-	/* MeasureTime m;
-	 	
-	 int k = 0;
-
-	 while (true)
-	 {
-
-		 digitalWrite(1, 0);
-		 delayMicroseconds(2);
-
-		 p_send = _packet;
-
-		 for (int i = 0; i < 15; i++)
-		 {
-
-			 if (m.t() > 0.00000001)
-			 {
-				 if (k == 0)
-				 {
-					 digitalWrite(1, p_send & 0x01);
-					 p_send = p_send >> 0x01;
-					 k = 1;
-				 }
-				 else if (k == 1)
-				 {
-					 digitalWrite(1, 0);
-
-					 k = 0;
-				 }
-				 check = false;
-			 }
-		 }
-	 }*/
+	 int m;
+	 cin >> m;
 	 
 	 return 0;
  }
+#pragma region OLD
+ /* wiringPiSetup();
+ pinMode(1, OUTPUT);
 
+ while (true)
+ {
+ digitalWrite(1, 1);
+ digitalWrite(1, 0);
+ }*/
+
+ //uint16_t _bitCheck;
+
+ // while (true)
+ // {
+ //	 digitalWrite(1, 0);
+ //	 delayMicroseconds(2);
+
+ //	 p_send = _packet;	 
+
+ //	 //Transmit Packet
+ //	 for (int i = 0; i < 15; i++)
+ //	 {
+ //		 //_bitCheck = (p_send & 0x01);
+
+ //		 digitalWrite(1, p_send & 0x01);
+
+ //		 //delayMicroseconds(1);
+
+ //		 digitalWrite(1, 0);
+
+ //		 delayMicroseconds(1.67);
+
+ //		 p_send = p_send >> 0x01;
+
+ //		 
+ //	 }
+
+ //	 //break;
+ //}
+
+ /* MeasureTime m;
+
+ int k = 0;
+
+ while (true)
+ {
+
+ digitalWrite(1, 0);
+ delayMicroseconds(2);
+
+ p_send = _packet;
+
+ for (int i = 0; i < 15; i++)
+ {
+
+ if (m.t() > 0.00000001)
+ {
+ if (k == 0)
+ {
+ digitalWrite(1, p_send & 0x01);
+ p_send = p_send >> 0x01;
+ k = 1;
+ }
+ else if (k == 1)
+ {
+ digitalWrite(1, 0);
+
+ k = 0;
+ }
+ check = false;
+ }
+ }
+ }*/
+
+#pragma endregion
 
 //int i;
 ////int delayTime = delayMicroseconds(10);
