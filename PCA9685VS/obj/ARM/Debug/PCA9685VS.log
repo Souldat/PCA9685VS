@@ -1,14 +1,17 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (C:\Users\Souldat\Desktop\Development\ConsoleApplication1\PCA9685VS\obj\ARM\Debug\) contains files shared from another project (ConsoleApplication1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Validating architecture
+﻿  Validating architecture
   Validating sources
   Copying sources remotely to '192.168.0.131'
   Starting remote build
   Compiling sources:
   main.cpp
-C:\Users\Souldat\Desktop\Development\ConsoleApplication1\PCA9685VS\main.cpp(15,28): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-C:\Users\Souldat\Desktop\Development\ConsoleApplication1\PCA9685VS\main.cpp(32,25): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-C:\Users\Souldat\Desktop\Development\ConsoleApplication1\PCA9685VS\main.cpp(32,25): warning :   packet = (packet << 4) | csum;
-C:\Users\Souldat\Desktop\Development\ConsoleApplication1\PCA9685VS\main.cpp(32,25): warning :            ~~~~~~~~~~~~~~^~~~~~
-C:\Users\Souldat\Desktop\Development\ConsoleApplication1\PCA9685VS\main.cpp(46,78): warning : conversion to ‘double’ from ‘std::chrono::duration<long long int, std::ratio<1ll, 1000000000ll> >::rep {aka long long int}’ may alter its value [-Wconversion]
+C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(99): warning : ignoring #pragma region OLD [-Wunknown-pragmas]
+C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(99): warning :  #pragma region OLD
+C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(173): warning : ignoring #pragma endregion  [-Wunknown-pragmas]
+C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(173): warning :  #pragma endregion
+C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(16,28): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(33,25): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(33,25): warning :   packet = (packet << 4) | csum;
+C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(33,25): warning :            ~~~~~~~~~~~~~~^~~~~~
+C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(47,78): warning : conversion to ‘double’ from ‘std::chrono::duration<long long int, std::ratio<1ll, 1000000000ll> >::rep {aka long long int}’ may alter its value [-Wconversion]
   Linking objects
-  PCA9685VS.vcxproj -> C:\Users\Souldat\Desktop\Development\ConsoleApplication1\PCA9685VS\bin\ARM\Debug\PCA9685VS.out
+  PCA9685VS.vcxproj -> C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\bin\ARM\Debug\PCA9685VS.out
