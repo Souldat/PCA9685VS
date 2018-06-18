@@ -71,7 +71,7 @@
       <LibraryDependencies>wiringPi</LibraryDependencies>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Souldat\AppData\Local\Microsoft\Linux\Header Cache\1.0\-500700849\usr\local\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\hx3r\AppData\Local\Microsoft\Linux\Header Cache\1.0\-500700849\usr\local\include</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
