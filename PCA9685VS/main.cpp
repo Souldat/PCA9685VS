@@ -7,7 +7,7 @@
 #include <chrono>
 #include <string>
 #include <wiringPiI2C.h>
-
+#include <iomanip>
 
 using namespace std;
 
@@ -83,16 +83,48 @@ using namespace std;
 	 }
  };
 
+ void PCAWrite(int fd, int reg, int val)
+ {
+	 wiringPiI2CWriteReg8(fd, 0xFA, 0x00);
+	 wiringPiI2CWriteReg8(fd, 0xFB, 0x00);
+	 wiringPiI2CWriteReg8(fd, 0xFD, 0x00);
+	 cout << "Writing: " << val << " to register: " << reg << " :: " << wiringPiI2CWriteReg8(fd, reg, val) << endl;
+ }
+
+ void PCAWrite_S(int fd, int reg, int val)
+ {
+	 wiringPiI2CWriteReg8(fd, 0xFA, 0x00);
+	 wiringPiI2CWriteReg8(fd, 0xFB, 0x00);
+	 wiringPiI2CWriteReg8(fd, 0xFD, 0x00);
+	 cout << "Writing: " << val << " to register: " << reg << " :: " << wiringPiI2CWriteReg8(fd, reg, val & 0xFF) << wiringPiI2CWriteReg8(fd, reg += 0x01, val >> 8) << endl;
+ }
+
  int main(void)
  {	
-	 int k = wiringPiI2CSetup(0x40);
+	int fd = wiringPiI2CSetup(0x40);
 
-	 cout << wiringPiI2CReadReg8(k,0x04) << endl;
+	PCAWrite(fd, 0xFA, 0x00);
+	PCAWrite(fd, 0xFB, 0x00);
+	PCAWrite(fd, 0xFC, 0x00);
+	PCAWrite(fd, 0xFD, 0x00);
+	PCAWrite(fd, 0x01, 0x04);	
+	PCAWrite(fd, 0x00, 0x01);
+	cout << "Read: " << wiringPiI2CReadReg8(fd, 0x00) << " from 0x00" << endl;
+	PCAWrite(fd, 0x00, 0x01);
+	cout << endl << endl;	 
+	
+	PCAWrite(fd, 0x08, 0x15);
+	usleep(10000);
+	PCAWrite(fd, 0x09, 0x03);
 
-	 
+	int input;
+	while (true)
+	{
 
-	 int m;
-	 cin >> m;
+		cout << "Enter speed:";
+		cin >> input;
+		PCAWrite_S(fd, 0x08, input);
+	}
 	 
 	 return 0;
  }

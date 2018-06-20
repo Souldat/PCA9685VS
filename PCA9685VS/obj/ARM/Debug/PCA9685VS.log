@@ -4,14 +4,15 @@
   Starting remote build
   Compiling sources:
   main.cpp
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(99): warning : ignoring #pragma region OLD [-Wunknown-pragmas]
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(99): warning :  #pragma region OLD
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(173): warning : ignoring #pragma endregion  [-Wunknown-pragmas]
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(173): warning :  #pragma endregion
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(16,28): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(33,25): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(33,25): warning :   packet = (packet << 4) | csum;
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(33,25): warning :            ~~~~~~~~~~~~~~^~~~~~
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(47,78): warning : conversion to ‘double’ from ‘std::chrono::duration<long long int, std::ratio<1ll, 1000000000ll> >::rep {aka long long int}’ may alter its value [-Wconversion]
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(131): warning : ignoring #pragma region OLD [-Wunknown-pragmas]
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(131): warning :  #pragma region OLD
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(205): warning : ignoring #pragma endregion  [-Wunknown-pragmas]
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(205): warning :  #pragma endregion
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(16,28): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(33,25): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(33,25): warning :   packet = (packet << 4) | csum;
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(33,25): warning :            ~~~~~~~~~~~~~~^~~~~~
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(47,78): warning : conversion to ‘double’ from ‘std::chrono::duration<long long int, std::ratio<1ll, 1000000000ll> >::rep {aka long long int}’ may alter its value [-Wconversion]
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(99,144): warning : operation on ‘reg’ may be undefined [-Wsequence-point]
   Linking objects
-  PCA9685VS.vcxproj -> C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\bin\ARM\Debug\PCA9685VS.out
+  PCA9685VS.vcxproj -> C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\bin\ARM\Debug\PCA9685VS.out
