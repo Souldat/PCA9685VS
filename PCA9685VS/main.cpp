@@ -1,254 +1,112 @@
-#include <cstdio>
 #include <iostream>
-#include <stdio.h>
-#include <wiringPi.h>
-#include <unistd.h>
-#include <vector>
-#include <chrono>
-#include <string>
 #include <wiringPiI2C.h>
-#include <iomanip>
+#include <cmath>
+#include <unistd.h>
 
 using namespace std;
+const int fd = wiringPiI2CSetup(0x40);
 
- uint16_t prepareDshotPacket(const uint16_t _value)
+//Write to single registers
+int WriteReg8(int _reg, int _val)
 {
-	uint16_t packet = (_value << 1); //| (motor->requestTelemetry ? 1 : 0);
-
-	//motor->requestTelemetry = false; // reset telemetry request to make sure it's triggered only once in a row
-
-	// compute checksum
-	int csum = 0;
-	int csum_data = packet;
-
-	for (int i = 0; i < 3; i++) 
+	try 
 	{
-		csum ^= csum_data; // xor data by nibbles
-		csum_data >>= 4;
+		cout << "Writing: " << _val << " to register: " << _reg << " :: ";
+		if (wiringPiI2CWriteReg8(fd, _reg, _val) == -1)
+		{
+			cout << -1 << endl;
+			return -1;
+		}
+		else
+		{
+			cout << 0 << endl;
+			return 0;
+		}
 	}
+	catch (const std::exception &exc)
+	{
+		cerr << exc.what();
+		return -1;
+	}	
+}
 
-	csum &= 0xf;
+//Read from single 8 bit register
+int ReadReg8(int _reg)
+{
+	try 
+	{
+		int _k = wiringPiI2CReadReg8(fd, _reg);
+		cout << "Read: " << _k << " from: " << _reg << endl;
+	}
+	catch (const std::exception &exc)
+	{
+		cerr << exc.what();
+		return -1;
+	}	
+}
 
-	// append checksum
-	packet = (packet << 4) | csum;
-
-	return packet;
- }
-
- struct MeasureTime
+ void PCA9685Init()
  {
-	 using precision = std::chrono::nanoseconds;
-	 std::vector<std::chrono::steady_clock::time_point> times;
-	 std::chrono::steady_clock::time_point oneLast;
+	 cout << endl << "Initializing PCA9685" << endl;
+	 cout << "-----------------------------" << endl;
+	 WriteReg8(0xFA, 0x00);
+	 WriteReg8(0xFB, 0x00);
+	 WriteReg8(0xFC, 0x00);
+	 WriteReg8(0xFD, 0x00);
+	 WriteReg8(0x01, 0x04);
+	 WriteReg8(0x00, 0x01);
+	 ReadReg8(0x00);	 
+	 WriteReg8(0x00, 0x01);
+	 cout << "-----------------------------" << endl;
+	 cout << endl << endl;	 
+ } 
+ 
+ void SetPWM(int _onVal, int _offVal)
+ {	 
+	 //Set the time in a single pulse which the output should be HIGH
+	 WriteReg8(0x06, _onVal & 0xFF);
+	 WriteReg8(0x07, _onVal >> 8);
 
-	 double p()
-	 {
-		 //std::cout<< "Mark "<< times.size() / 2 << ": "<< std::chrono::duration_cast<precision>(times.back() - oneLast).count()<< std::endl;
-		 return std::chrono::duration_cast<precision>(times.back() - oneLast).count();
+	 //Set the time in a single pulse which the output should be LOW
+	 WriteReg8(0x08, _offVal & 0xFF);
+	 WriteReg8(0x09, _offVal >> 8);
+ } 
 
-		 m();
-	 }
-
-	 void m()
-	 {
-		 oneLast = times.back();
-		 times.push_back(std::chrono::steady_clock::now());
-	 }
-
-	 double t()
-	 {
-		 m();
-		 return p(); 		 
-	 }
-
-	 MeasureTime()
-	 {
-		 times.push_back(std::chrono::steady_clock::now());
-	 }
- };
-
- struct clock
+ void SetFrequency(float _freq)
  {
-	 typedef unsigned long long                 rep;
-	 typedef std::ratio<1, 1400000000>       period; // My machine is 2.8 GHz
-	 typedef std::chrono::duration<rep, period> duration;
-	 typedef std::chrono::time_point<clock>     time_point;
-	 static const bool is_steady = true;
+	 cout << "Setting frequency to:" << _freq << "Hz" << endl;
+	 int scale = 25000000 / 4096;
+	 scale /= _freq;
+	 scale -= 1;
+	 scale = floor(scale + .05);
+	 cout << "Value after scaling to clock (25MHz):" << scale << endl;
 
-	 static time_point now() noexcept
-	 {
-		 unsigned lo, hi;
-		 asm volatile("rdtsc" : "=a" (lo), "=d" (hi));
-		 return time_point(duration(static_cast<rep>(hi) << 32 | lo));
-	 }
- };
+	 WriteReg8(0x00, 0x11);
+	 WriteReg8(0xFE, scale);
+	 WriteReg8(0x00, 0x01);
+	 usleep(500);
+	 WriteReg8(0x00, 0x81);
 
- void PCAWrite(int fd, int reg, int val)
- {
-	 wiringPiI2CWriteReg8(fd, 0xFA, 0x00);
-	 wiringPiI2CWriteReg8(fd, 0xFB, 0x00);
-	 wiringPiI2CWriteReg8(fd, 0xFD, 0x00);
-	 cout << "Writing: " << val << " to register: " << reg << " :: " << wiringPiI2CWriteReg8(fd, reg, val) << endl;
- }
-
- void PCAWrite_S(int fd, int reg, int val)
- {
-	 wiringPiI2CWriteReg8(fd, 0xFA, 0x00);
-	 wiringPiI2CWriteReg8(fd, 0xFB, 0x00);
-	 wiringPiI2CWriteReg8(fd, 0xFD, 0x00);
-	 cout << "Writing: " << val << " to register: " << reg << " :: " << wiringPiI2CWriteReg8(fd, reg, val & 0xFF) << wiringPiI2CWriteReg8(fd, reg += 0x01, val >> 8) << endl;
+	 cout << "Frequency set." << endl << endl;
  }
 
  int main(void)
  {	
-	int fd = wiringPiI2CSetup(0x40);
-
-	PCAWrite(fd, 0xFA, 0x00);
-	PCAWrite(fd, 0xFB, 0x00);
-	PCAWrite(fd, 0xFC, 0x00);
-	PCAWrite(fd, 0xFD, 0x00);
-	PCAWrite(fd, 0x01, 0x04);	
-	PCAWrite(fd, 0x00, 0x01);
-	cout << "Read: " << wiringPiI2CReadReg8(fd, 0x00) << " from 0x00" << endl;
-	PCAWrite(fd, 0x00, 0x01);
-	cout << endl << endl;	 
-	
-	PCAWrite(fd, 0x08, 0x15);
-	usleep(10000);
-	PCAWrite(fd, 0x09, 0x03);
+	 //Initialize PCA9685
+	 PCA9685Init();
 
 	int input;
+
 	while (true)
 	{
+		cout << "Enter Frequency: ";
+		cin >> input;
+		SetFrequency(input);
 
 		cout << "Enter speed:";
 		cin >> input;
-		PCAWrite_S(fd, 0x08, input);
+		SetPWM(0, input);
 	}
-	 
+
 	 return 0;
  }
-#pragma region OLD
- /* wiringPiSetup();
- pinMode(1, OUTPUT);
-
- while (true)
- {
- digitalWrite(1, 1);
- digitalWrite(1, 0);
- }*/
-
- //uint16_t _bitCheck;
-
- // while (true)
- // {
- //	 digitalWrite(1, 0);
- //	 delayMicroseconds(2);
-
- //	 p_send = _packet;	 
-
- //	 //Transmit Packet
- //	 for (int i = 0; i < 15; i++)
- //	 {
- //		 //_bitCheck = (p_send & 0x01);
-
- //		 digitalWrite(1, p_send & 0x01);
-
- //		 //delayMicroseconds(1);
-
- //		 digitalWrite(1, 0);
-
- //		 delayMicroseconds(1.67);
-
- //		 p_send = p_send >> 0x01;
-
- //		 
- //	 }
-
- //	 //break;
- //}
-
- /* MeasureTime m;
-
- int k = 0;
-
- while (true)
- {
-
- digitalWrite(1, 0);
- delayMicroseconds(2);
-
- p_send = _packet;
-
- for (int i = 0; i < 15; i++)
- {
-
- if (m.t() > 0.00000001)
- {
- if (k == 0)
- {
- digitalWrite(1, p_send & 0x01);
- p_send = p_send >> 0x01;
- k = 1;
- }
- else if (k == 1)
- {
- digitalWrite(1, 0);
-
- k = 0;
- }
- check = false;
- }
- }
- }*/
-
-#pragma endregion
-
-//int i;
-////int delayTime = delayMicroseconds(10);
-//
-//wiringPiSetup();
-//	
-//pinMode(1, OUTPUT);
-
-//for (;;)
-//{
-//	//printf("LED #0 on\n");
-//	digitalWrite(1, 1);
-//	//delay(delayTime);
-//	delayMicroseconds(3);
-
-//	//printf("LED #0 off\n\n");
-//	digitalWrite(1, 0);
-//	delayMicroseconds(3);
-//	//delay(delayTime);	
-//	
-//}
-
-
-// use the wPi column for pin identification in this program.
-// In this case, wPi pin 0 is located at physical pin #11 (GND at pin #9)
-// wPi pin 1 is located at physical pin #12 (GND at pin #6)
-// note that these pin numbers are based on your hardware device.  I'm using a Raspberry Pi, version B, first generation.
-
-//pi@raspberrypi:~ $ gpio readall  <--- Hint, Hint !!
-// +-----+-----+---------+------+---+-Model B1-+---+------+---------+-----+-----+
-// | BCM | wPi |   Name  | Mode | V | Physical | V | Mode | Name    | wPi | BCM |
-// +-----+-----+---------+------+---+----++----+---+------+---------+-----+-----+
-// |     |     |    3.3v |      |   |  1 || 2  |   |      | 5v      |     |     |
-// |   2 |   8 |   SDA.1 |  OUT | 0 |  3 || 4  |   |      | 5v      |     |     |
-// |   3 |   9 |   SCL.1 |  OUT | 0 |  5 || 6  |   |      | 0v      |     |     |
-// |   4 |   7 | GPIO. 7 |  OUT | 0 |  7 || 8  | 0 | OUT  | TxD     | 15  | 14  |
-// |     |     |      0v |      |   |  9 || 10 | 1 | OUT  | RxD     | 16  | 15  |
-// |  17 |   0 | GPIO. 0 |  OUT | 0 | 11 || 12 | 0 | OUT  | GPIO. 1 | 1   | 18  |
-// |  27 |   2 | GPIO. 2 |  OUT | 1 | 13 || 14 |   |      | 0v      |     |     |
-// |  22 |   3 | GPIO. 3 |  OUT | 0 | 15 || 16 | 0 | OUT  | GPIO. 4 | 4   | 23  |
-// |     |     |    3.3v |      |   | 17 || 18 | 0 | OUT  | GPIO. 5 | 5   | 24  |
-// |  10 |  12 |    MOSI |  OUT | 0 | 19 || 20 |   |      | 0v      |     |     |
-// |   9 |  13 |    MISO |  OUT | 0 | 21 || 22 | 0 | OUT  | GPIO. 6 | 6   | 25  |
-// |  11 |  14 |    SCLK |  OUT | 0 | 23 || 24 | 0 | OUT  | CE0     | 10  | 8   |
-// |     |     |      0v |      |   | 25 || 26 | 0 | OUT  | CE1     | 11  | 7   |
-// +-----+-----+---------+------+---+----++----+---+------+---------+-----+-----+
-// | BCM | wPi |   Name  | Mode | V | Physical | V | Mode | Name    | wPi | BCM |
-// +-----+-----+---------+------+---+-Model B1-+---+------+---------+-----+-----+
-//
