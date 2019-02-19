@@ -2,6 +2,7 @@
 #include <wiringPiI2C.h>
 #include <cmath>
 #include <unistd.h>
+#include <thread>
 
 using namespace std;
 const int fd = wiringPiI2CSetup(0x40);
@@ -97,15 +98,33 @@ int ReadReg8(int _reg)
 
 	int input;
 
+	cout << "Enter Frequency: ";
+	cin >> input;
+	SetFrequency(input);
+	usleep(1000000);
+	SetPWM(0, 456);
+	usleep(1000000);
+	SetPWM(0, 789);
+	usleep(1000000);
 	while (true)
 	{
-		cout << "Enter Frequency: ";
+		/*cout << "Enter speed:";
 		cin >> input;
-		SetFrequency(input);
+		SetPWM(0, input);*/
+		for (int i = 800; i < 839; i++)
+		{
+			usleep(100000);
+			SetPWM(0, i);			
+		}
 
-		cout << "Enter speed:";
-		cin >> input;
-		SetPWM(0, input);
+		for (int k = 839; k > 800; k--)
+		{
+			usleep(100000);
+			SetPWM(0, k);
+		}
+
+		//SetPWM(0, 800);
+		
 	}
 
 	 return 0;

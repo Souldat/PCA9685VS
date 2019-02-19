@@ -1,21 +1,21 @@
-﻿  Validating architecture
-  Validating sources
+﻿  Validating sources
   Copying sources remotely to '192.168.0.131'
+  Validating architecture
   Starting remote build
   Compiling sources:
   main.cpp
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(79,12): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(79,12): warning :    scale /= _freq;
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(79,12): warning :             ^~~~~
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(79,12): warning : conversion to ‘int’ from ‘float’ may alter its value [-Wfloat-conversion]
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(81,16): warning : conversion to ‘int’ from ‘double’ may alter its value [-Wfloat-conversion]
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(81,16): warning :    scale = floor(scale + .05);
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(81,16): warning :            ~~~~~^~~~~~~~~~~~~
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(104,21): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(104,21): warning :    SetFrequency(input);
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(104,21): warning :                      ^
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(46,1): warning : control reaches end of non-void function [-Wreturn-type]
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(46,1): warning :  }
-C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(46,1): warning :  ^
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(80,12): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(80,12): warning :    scale /= _freq;
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(80,12): warning :             ^~~~~
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(80,12): warning : conversion to ‘int’ from ‘float’ may alter its value [-Wfloat-conversion]
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(82,16): warning : conversion to ‘int’ from ‘double’ may alter its value [-Wfloat-conversion]
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(82,16): warning :    scale = floor(scale + .05);
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(82,16): warning :            ~~~~~^~~~~~~~~~~~~
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(103,20): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(103,20): warning :   SetFrequency(input);
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(103,20): warning :                     ^
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(47,1): warning : control reaches end of non-void function [-Wreturn-type]
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(47,1): warning :  }
+C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\main.cpp(47,1): warning :  ^
   Linking objects
-  PCA9685VS.vcxproj -> C:\Users\Souldat\Desktop\Development\PCA9685VS\PCA9685VS\bin\ARM\Debug\PCA9685VS.out
+  PCA9685VS.vcxproj -> C:\Users\hx3r\Desktop\Development\PCA9685VS\PCA9685VS\bin\ARM\Debug\PCA9685VS.out
